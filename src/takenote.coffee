@@ -92,8 +92,8 @@ do ->
 		_getCaretBlock: (old) ->
 			area = @area
 			old = @_getCaretNode() if old is undefined
-			old = old.parentNode while old.tagName != 'LI' if old != null
-			return old
+			old = old.parentNode while old.tagName != 'LI' if old != null and old != document.body
+			if old != document.body then old else null
 		
 		_getCaret: ->
 			sel = window.getSelection()
@@ -142,7 +142,8 @@ do ->
 			sel = window.getSelection()
 			return null if sel.focusNode is null
 			range = sel.getRangeAt 0
-			block = @_getCaretBlock sel.focusNode		
+			block = @_getCaretBlock sel.focusNode
+			return document.createDocumentFragment() if !block
 			cnt = block.firstChild.lastChild || block.firstChild || block
 			range.setEnd cnt, cnt.length
 			return range.extractContents()
@@ -150,7 +151,7 @@ do ->
 		_addListeners: ->
 			that = @
 
-			@area.addEventListener 'keydown', (e) ->
+			@area.addEventListener 'keydown', ((e) ->
 				switch e.keyCode
 					when 13 # return
 						e.preventDefault()
@@ -159,8 +160,9 @@ do ->
 						e.preventDefault();
 						if !e.shiftKey then that.indent()
 						else that.outdent()
+			), false
 
-			@area.addEventListener 'keyup', (e) ->
+			@area.addEventListener 'keyup', ((e) ->
 				switch e.keyCode
 					when 8, 46 # backspace, delete
 						sel = window.getSelection()
@@ -177,6 +179,7 @@ do ->
 				that.ACTIVE_TYPE = node.data('type') or that.DEFAULT_TYPE
 
 			return @
+		), false
 
 
 	window.TakeNote = Editor
