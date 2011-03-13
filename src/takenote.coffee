@@ -177,9 +177,9 @@ do ->
 				node = that._getCaretNode()
 				node = node.parentNode while node.tagName != 'LI'
 				that.ACTIVE_TYPE = node.data('type') or that.DEFAULT_TYPE
+			), false
 
 			return @
-		), false
 
 
 	window.TakeNote = Editor
