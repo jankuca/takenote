@@ -5,44 +5,49 @@
 	<title>TakeNote, List-based JavaScript WYSIWYG Editor</title>
 	<meta name="author" content="Jan Kuča <jan@jankuca.com>, http://jankuca.com" />
 	<link rel="stylesheet" type="text/css" href="./css/screen.css" />
-	<script src="https://github.com/jankuca/takenote/raw/master/lib/coffeescript/coffeescript.js"></script>
-	<script src="https://github.com/jankuca/takenote/raw/master/src/takenote.coffee" type="text/coffeescript"></script>
 </head>
 <body>
 <hgroup>
-	<h1>TakeNote</h1>
-	<h2>List-based JavaScript WYSIWYG Editor</h2>
+  <h1>TakeNote</h1>
+  <h2>List-based JavaScript WYSIWYG Editor</h2>
 </hgroup>
 <p>TakeNote is a simple WYSIWYG editor written in CoffeeScript (JavaScript). It is being developed by <a href="http://jankuca.com">Jan Kuča</a> as the future editor for the web application <a href="http://skolnisesit.cz">Školní sešit.cz</a>.</p>
 <p>Unlike other similar tools, TakeNote is list-based meaning that the content the editor produces is structured using lists (<code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>) and list items (<code>&lt;li&gt;</code>) and one of the key features is its taking advantage of the HTML5 <code>contenteditable</code> attribute. Each of those items has a content node and an optional sub-list:</p>
-<pre><code>&lt;ul id=&quot;area&quot;&gt;
-  &lt;li data-type=&quot;h1&quot;&gt;
+
+<pre><code>&lt;ul id=&quot;<strong style="color: green;">area</strong>&quot;&gt;
+<span style="color:#AAA">  &lt;li data-type=&quot;h1&quot;&gt;
     &lt;h1&gt;Lorem ipsum&lt;/h1&gt;
   &lt;/li&gt;
   &lt;li data-type=&quot;paragraph&quot;&gt;
     &lt;p&gt;What's up?&lt;/p&gt;
     &lt;ul&gt;
       &lt;li data-type=&quot;paragraph&quot;&gt;
-      	&lt;p&gt;Dolor sit amet&lt;/p&gt;
+        &lt;p&gt;Dolor sit amet&lt;/p&gt;
       &lt;/li&gt;
       &lt;li data-type=&quot;paragraph&quot;&gt;
-      	&lt;p&gt;Dolor sit amet&lt;/p&gt;
+        &lt;p&gt;Dolor sit amet&lt;/p&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li data-type=&quot;paragraph&quot;&gt;
-  	&lt;p&gt;Dolor sit amet&lt;/p&gt;
-  &lt;/li&gt;
+    &lt;p&gt;Dolor sit amet&lt;/p&gt;
+  &lt;/li&gt;</span>
 &lt;/ul&gt;</code></pre>
-<pre><code>&lt;script type=&quot;text/coffeescript&quot; src=&quot;./takenote.coffee&quot;&gt;&lt;/script&gt;
-&lt;script type=&quot;text/coffeescript&quot;&gt;
-window.editor = new TakeNote document.getElementById 'area'
-editor.activate()
+
+<pre><code>&lt;script src=&quot;utils.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;takenote.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+window.editor = new TakeNote(document.getElementById('<strong style="color: green;">area</strong>'));
+editor.activate();
 &lt;/script&gt;</code></pre>
+
 <ul id="example-area"><li data-type="h1"><h1>Lorem ipsum</h1></li><li data-type="paragraph"><p>What's up?</p><ul><li data-type="paragraph"><p>Dolor sit amet</p></li><li data-type="paragraph"><p>Dolor sit amet</p></li></ul></li><li data-type="paragraph"><p>Dolor sit amet</p></li></ul>
-<script type="text/coffeescript">
-window.editor = new TakeNote document.getElementById 'example-area'
-editor.activate()
+
+<script src="https://github.com/jankuca/takenote/raw/master/lib/utils.js"></script>
+<script src="https://github.com/jankuca/takenote/raw/master/dist/takenote.js"></script>
+<script>
+window.editor = new TakeNote(document.getElementById('example-area'));
+editor.activate();
 </script>
 </body>
 </html>
