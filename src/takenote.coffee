@@ -137,7 +137,7 @@ Editor = Function.inherit (area) ->
 
 		cnt = new Element type.tag, type.attrs
 		node.appendChild cnt
-		cnt.appendChild frag
+		cnt.appendChild frag unless frag is null
 		return node
 
 	_getRightFragment: ->
