@@ -4,15 +4,28 @@
 <style>
 * { margin: 0; padding: 0; }
 body { margin: 30px 50px; font-family: serif; }
-h1, h2, h3, h4, h5 { font-family: sans-serif; }
-ul { border: 1px dashed #FCB; list-style: none; }
-ul ul { margin-left: 20px; }
-li { margin-top: 4px; margin-bottom: 4px; border: 1px dashed #CF5; background: #FFC; }
-li > p { min-height: 20px; line-height: 20px; }
-li > h1 { min-height: 60px; line-height: 60px; }
+ul { list-style: none; }
+
+#area h1,
+#area h2,
+#area h3,
+#area h4,
+#area h5 {
+	font-family: sans-serif;
+}
+#area ul { border: 1px dashed #FCB; }
+#area ul ul { margin-left: 20px; }
+#area li { margin-top: 4px; margin-bottom: 4px; border: 1px dashed #CF5; background: #FFC; }
+#area li > p { min-height: 20px; line-height: 20px; }
+#area li > h1 { min-height: 60px; line-height: 60px; }
+
+#controls .group { display: inline-block; height: 26px; border: 1px solid #DDD; }
+#controls .group a { display: inline-block; margin: 1px; width: 22px; height: 22px; border: 1px solid #AAA; background: #DDD; }
+#controls .group a.active { border: 1px solid #CCC; background: #FFF; }
 </style>
 </head>
 <body>
+<div id="controls"></div>
 <ul id="area"></ul>
 <script type="text/javascript" src="../../lib/utils.js"></script>
 <script type="text/javascript" src="../../lib/coffeescript/coffeescript.js"></script>

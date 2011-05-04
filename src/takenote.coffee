@@ -184,5 +184,66 @@ Editor = Function.inherit (area) ->
 		return @
 
 
+Toolbar = Function.inherit (element) ->
+	throw new Error 'Missing toolbar element' if !element
+	@element = element
+	@_groups = []
+	return
+,
+	activate: (editor) ->
+		@active = true
+		@element.addClassName 'active'
+		@editor = editor
+		return @
+	deactivate: ->
+		@active = false
+		@element.removeClassName 'active'
+		return @
+	push: (group) ->
+		throw new Error 'Invalid group' unless group instanceof ToolbarGroup
+		@_groups.push group
+		@element.appendChild group.element
+		group.toolbar = this
+
+
+ToolbarGroup = Function.inherit (name) ->
+	@name = name
+	@_controls = []
+	@element = new Element 'div',
+		class: 'group'
+	return
+,
+	push: (control) ->
+		throw new Error 'Invalid control' unless control instanceof ToolbarControl
+		@_controls.push control
+		@element.appendChild control.element
+		control.toolbar = @toolbar
+
+
+ToolbarControl = do Function.inherit
+
+ToolbarButton = ToolbarControl.inherit (name, fn) ->
+	@name = name
+	@handler = fn.handler
+	@query = fn.query
+	do @_build
+	return
+,
+	_build: ->
+		that = this
+		@element = new Element 'a',
+			href: 'javascript:void(0);'
+			class: name
+		@element.addEventListener 'click', (e) ->
+			do e.preventDefault
+			that.handler.call that, that.toolbar.editor, e
+			return false
+
+
+Toolbar.Group = ToolbarGroup
+Toolbar.Control = ToolbarControl
+Toolbar.Button = ToolbarButton
+Editor.Toolbar = Toolbar
+
 window.TakeNote = Editor
 return
