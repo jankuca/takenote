@@ -92,9 +92,8 @@ Editor = Function.inherit (area) ->
 		window.getSelection().focusNode
 
 	_getCaretBlock: (old) ->
-		area = @area
 		old = @_getCaretNode() if old is undefined
-		old = old.parentNode while old.tagName != 'LI' if old != null and old != document.body
+		old = old.parentNode while old.tagName != 'LI' and old != document.body if old != null
 		if old != document.body then old else null
 	
 	_getCaret: ->
