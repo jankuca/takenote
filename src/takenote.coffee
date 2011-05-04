@@ -35,6 +35,7 @@ Editor = Function.inherit (area) ->
 		return false if !@active
 
 		type = @types[type]
+		caret = @_getCaret()
 
 		old = @_getCaretBlock().firstChild
 		node = new Element type.tag, type.attrs
@@ -42,6 +43,8 @@ Editor = Function.inherit (area) ->
 		cnts.forEach (cnt) -> node.appendChild cnt
 		old.insert after: node
 		old.remove()
+
+		@_setCaret caret
 		return @
 	
 	indent: ->
