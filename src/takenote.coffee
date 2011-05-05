@@ -221,8 +221,9 @@ ToolbarGroup = Function.inherit (name) ->
 
 ToolbarControl = do Function.inherit
 
-ToolbarButton = ToolbarControl.inherit (name, fn) ->
+ToolbarButton = ToolbarControl.inherit (name, title, fn) ->
 	@name = name
+	@title = title
 	@handler = fn.handler
 	@query = fn.query
 	do @_build
@@ -232,7 +233,8 @@ ToolbarButton = ToolbarControl.inherit (name, fn) ->
 		that = this
 		@element = new Element 'a',
 			href: 'javascript:void(0);'
-			class: name
+			class: 'button ' + @name
+			title: @title
 		@element.addEventListener 'click', (e) ->
 			do e.preventDefault
 			that.handler.call that, that.toolbar.editor, e
