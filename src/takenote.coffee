@@ -31,10 +31,11 @@ Editor = Function.inherit (area) ->
 		@_addBlock @DEFAULT_TYPE
 		return @
 
-	setBlockType: (type) ->
+	setBlockType: (type_key) ->
 		return false if !@active
 
-		type = @types[type]
+		type = @types[type_key]
+		throw new Error "Undefined block type '#{type_key}'" if not type
 		caret = @_getCaret()
 
 		old = @_getCaretBlock().firstChild
@@ -42,6 +43,7 @@ Editor = Function.inherit (area) ->
 		cnts = Array.prototype.slice.call old.childNodes
 		cnts.forEach (cnt) -> node.appendChild cnt
 		old.insert after: node
+		node.parentNode.data 'type', type_key
 		old.remove()
 
 		@_setCaret caret
