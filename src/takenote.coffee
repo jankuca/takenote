@@ -47,6 +47,7 @@ Editor = Function.inherit (area) ->
 		old.remove()
 
 		@_setCaret caret
+		do @_updateState
 		return @
 	
 	indent: ->
@@ -177,12 +178,25 @@ Editor = Function.inherit (area) ->
 						apple.remove()
 					range.reapply()
 
-			node = that._getCaretNode()
-			node = node.parentNode while node.tagName != 'LI'
-			that.ACTIVE_TYPE = node.data('type') or that.DEFAULT_TYPE
+			do that._updateState
+		), false
+
+		@area.addEventListener 'click', (->
+			do that._updateState
 		), false
 
 		return @
+	
+	_updateState: ->
+		node = @_getCaretNode()
+		node = node.parentNode while node.tagName != 'LI'
+		@ACTIVE_TYPE = node.data('type') or @DEFAULT_TYPE
+
+		do @_updateToolbar
+	
+	_updateToolbar: ->
+		return false if not @toolbar
+		do @toolbar.query
 
 
 Toolbar = Function.inherit (element) ->
@@ -205,6 +219,8 @@ Toolbar = Function.inherit (element) ->
 		@_groups.push group
 		@element.appendChild group.element
 		group.toolbar = this
+	query: ->
+		@_groups.forEach (group) -> do group.query
 
 
 ToolbarGroup = Function.inherit (name) ->
@@ -219,6 +235,11 @@ ToolbarGroup = Function.inherit (name) ->
 		@_controls.push control
 		@element.appendChild control.element
 		control.toolbar = @toolbar
+	query: ->
+		@_controls.forEach (control) ->
+			active = control.query.call null, this
+			control.element[if active then 'addClassName' else 'removeClassName'] 'active'
+		, this.toolbar.editor
 
 
 ToolbarControl = do Function.inherit
