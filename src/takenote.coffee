@@ -132,10 +132,11 @@ Editor = Function.inherit (area) ->
 		unless active_type.NEXT is undefined then active_type.NEXT else @ACTIVE_TYPE
 
 	_addBlock: (type_key, skip_right_fragment) ->
-		frag = if skip_right_fragment then null else @_getRightFragment()
+		block = @_getCaretBlock()
+		orig_img_count = if block then block.find('img').length else 0
 
-		img_count = 0
-		img_count = frag.find('img').length if frag isnt null
+		frag = if skip_right_fragment then null else @_getRightFragment()
+		frag_img_count = if frag then frag.find('img').length else 0
 
 		type_key = @ACTIVE_TYPE if type_key is undefined and frag != null and frag.childNodes.length != 0
 		type_key = @_getNextTypeKey() if type_key is undefined
@@ -143,8 +144,12 @@ Editor = Function.inherit (area) ->
 
 		node = new Element 'li'
 		node.data 'type', type_key
-		block = @_getCaretBlock()
-		[].slice.call([].reverse.call(block.find('img')), 0, img_count).forEach (img) -> do img.remove
+
+		if orig_img_count
+			imgs = block.find('img')
+			if imgs.length > orig_img_count - frag_img_count
+				block.find('img').last().remove()
+		
 		if block then block.insert after: node
 		else @area.appendChild node
 
