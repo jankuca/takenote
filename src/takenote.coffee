@@ -248,7 +248,8 @@ ToolbarGroup = Function.inherit (name) ->
 		control.toolbar = @toolbar
 	query: ->
 		@_controls.forEach (control) ->
-			active = control.query.call null, this
+			active = no
+			active = control.query.call null, this unless typeof control.query isnt 'function'
 			control.element[if active then 'addClassName' else 'removeClassName'] 'active'
 		, this.toolbar.editor
 
