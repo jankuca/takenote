@@ -256,11 +256,12 @@ ToolbarGroup = Function.inherit (name) ->
 
 ToolbarControl = do Function.inherit
 
-ToolbarButton = ToolbarControl.inherit (name, title, fn) ->
+ToolbarButton = ToolbarControl.inherit (name, title, def) ->
 	@name = name
 	@title = title
-	@handler = fn.handler
-	@query = fn.query
+	@def = def
+	@handler = def.handler
+	@query = def.query
 	do @_build
 	return
 ,
@@ -270,10 +271,19 @@ ToolbarButton = ToolbarControl.inherit (name, title, fn) ->
 			href: 'javascript:void(0);'
 			class: 'button ' + @name
 			title: @title
-		@element.addEventListener 'click', (e) ->
-			do e.preventDefault
-			that.handler.call that, that.toolbar.editor, e
-			return false
+
+		if @handler
+			@element.addEventListener 'click', (e) ->
+				do e.preventDefault
+				that.handler.call that, that.toolbar.editor, e
+				return false
+		
+		do @_addOverlay if @def.overlay
+	
+	_addOverlay: ->
+		@overlay = @def.overlay
+		@overlay.addClassName 'overlay'
+		@element.insert @overlay
 
 
 Toolbar.Group = ToolbarGroup
