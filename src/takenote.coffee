@@ -205,8 +205,11 @@ Editor = Function.inherit (area) ->
 	
 	_updateState: ->
 		node = @_getCaretNode()
-		node = node.parentNode while node.tagName != 'LI'
-		@ACTIVE_TYPE = node.data('type') or @DEFAULT_TYPE
+		if node isnt null
+			node = node.parentNode while node.tagName != 'LI'
+			@ACTIVE_TYPE = node.data('type') or @DEFAULT_TYPE
+		else
+			@ACTIVE_TYPE = @DEFAULT_TYPE
 
 		do @_updateToolbar
 	
