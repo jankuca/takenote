@@ -10,6 +10,9 @@ Editor = Function.inherit (area) ->
 		h2:
 			tag: 'h2'
 			NEXT: 'paragraph'
+		h3:
+			tag: 'h3'
+			NEXT: 'paragraph'
 	@DEFAULT_TYPE = 'h1'
 	@ACTIVE_TYPE = @DEFAULT_TYPE
 	return
