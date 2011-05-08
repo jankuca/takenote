@@ -88,6 +88,10 @@ Editor = Function.inherit (area) ->
 		@_setCaret caret
 		return @
 
+	addBlock: (type_key) ->
+		node = @_addBlock type_key, yes
+		return node.firstChild
+
 
 	_createSub: (node) ->
 		sub = new Element 'ul'
