@@ -16,7 +16,7 @@ Editor = Function.inherit (area) ->
 		standalone:
 			tag: 'div'
 			NEXT: 'paragraph'
-	@DEFAULT_TYPE = 'h1'
+	@DEFAULT_TYPE = 'paragraph'
 	@ACTIVE_TYPE = @DEFAULT_TYPE
 	return
 ,
