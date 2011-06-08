@@ -93,6 +93,8 @@ Editor = Function.inherit (area) ->
 
 	addBlock: (type_key) ->
 		node = @_addBlock type_key, yes
+		do @_fixAreaEnd
+
 		return node.firstChild
 
 
@@ -198,13 +200,19 @@ Editor = Function.inherit (area) ->
 					range.reapply()
 
 			do that._updateState
+			do that._fixAreaEnd
 		), false
 
 		@area.addEventListener 'click', (->
+			do that._fixAreaEnd
 			do that._updateState
 		), false
 
 		return @
+
+	_fixAreaEnd: ->
+		if @area.lastChild.data('type') isnt 'paragraph'
+			@area.insert @_addBlock('paragraph')
 	
 	_updateState: ->
 		node = @_getCaretNode()
@@ -288,6 +296,7 @@ ToolbarButton = ToolbarControl.inherit (name, title, def) ->
 				do e.preventDefault
 				that.handler.call that, that.toolbar.editor, e
 				return false
+			, false
 		
 		do @_addOverlay if @def.overlay
 	
