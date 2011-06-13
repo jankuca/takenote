@@ -108,8 +108,16 @@ Editor = Function.inherit (area) ->
 
 	_getCaretBlock: (old) ->
 		old = @_getCaretNode() if old is undefined
-		old = old.parentNode while old.tagName != 'LI' and old != document.body if old != null
-		if old != document.body then old else null
+		old = old.parentNode while old isnt null and old.tagName isnt 'LI' and old isnt document.body
+		return null if old is null or old is document.body # outside of any possible block
+
+		# check if we're in @area
+		list = old
+		area = @area
+		while list isnt document.body
+			list = old.parentNode
+			return old if list is area
+		return null
 	
 	_getCaret: ->
 		sel = window.getSelection()
