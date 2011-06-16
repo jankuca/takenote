@@ -115,7 +115,7 @@ Editor = Function.inherit (area) ->
 		list = old
 		area = @area
 		while list isnt document.body
-			list = old.parentNode
+			list = list.parentNode
 			return old if list is area
 		return null
 	
